@@ -1,0 +1,39 @@
+/**********
+* parprogram Api
+* This function is used to pass the order email and amount to parprogram api
+* Convert one subscriber from acquisition sequence to retention sequence
+* you need to List and key to integrate this api
+* Author : Devender Kumar 
+* Follow : @kantsverma
+* Facebook : facebook.com/kantsverma
+**********/
+function api_parprogram($email,$amount){
+//http://api.parprogram.com/?do=to_retention&list=abs&key=mifz1e2gtzdlmdi0cg2si3kgt4xd8vzk&email=devender@gmail.com&value=19.95
+// you will get this list name from site
+$api_list = urlencode('name_of_list');
+// set here key that you got from API provide
+$api_key = urlencode('set_here_key');
+$api_url = "http://api.parprogram.com/?do=to_retention";
+ 
+// Set the API operation, version, and API signature in the request.
+$apiParameter = "list=$api_list&key=$api_key&email=$email&value=$amount";
+ 
+// Set the curl parameters.
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $api_url);
+curl_setopt($ch, CURLOPT_VERBOSE, 1);
+// Turn off the server and peer verification (TrustManager Concept).
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, 1);
+// Set the request as a POST FIELD for curl.
+curl_setopt($ch, CURLOPT_POSTFIELDS, $apiParameter);
+// Get response from the server.
+$httpResponse = curl_exec($ch);
+if($httpResponse) {
+return $httpResponse;
+}else{
+return false;
+}
+}
